@@ -1,6 +1,6 @@
 var fs = require('fs');
-var array1 = fs.readFileSync('100Boxes.txt').toString().split('\n');
-var array2 = fs.readFileSync('696.txt').toString().split('\n');
+var gameA = fs.readFileSync('games/100Boxes.txt').toString().split('\n');
+var gameB = fs.readFileSync('games/696.txt').toString().split('\n');
 
 function getFromTxt(array) {
   var result = []
@@ -35,7 +35,6 @@ function getFromTxt(array) {
     obj[title] = result[i]
   }
 
-  console.log(obj)
   return obj
 }
 
@@ -58,5 +57,11 @@ function findMaxLength(arr) {
   return _max
 }
 
-getFromTxt(array1)
-getFromTxt(array2)
+fs.writeFile('games.js', `export const games = JSON.parse('${JSON.stringify({
+  ...getFromTxt(gameA),
+  ...getFromTxt(gameB),
+})}')`, {
+  flag: 'w',
+}, function(err) {
+  console.log(err)
+})
